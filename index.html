@@ -152,7 +152,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink)}
 const CONFIG = {
   SHEET_ID: "1OiiiHdx9ZjtOXu_Y-t5Drv76bMJTrgazBQ5XTsl_qww",
   SHEET_NAME: "Sayfa1",
-  API_KEY: "AIzaSyDOxuTuuU3Zq8n4RfCp5ExzbaSpXCarSSY",   // ← Google Sheets API key
+  API_KEY: "BURAYA_API_KEY_YAPISTIR",   // ← Google Sheets API key
 };
 // ────────────────────────────────────────────────────────────────────────────
 
@@ -348,6 +348,27 @@ function mainHTML(){
   return topicHTML();
 }
 
+function parseContent(raw){
+  if(!raw) return null;
+  // Başlığı çek: "1. Gerçek Anlam (Temel Anlam) : açıklama..." veya "1. Başlık: açıklama"
+  const titleMatch = raw.match(/^\d+\.\s*([^:]+?)\s*[:：]\s*/);
+  const title = titleMatch ? titleMatch[1].trim() : null;
+  const rest = titleMatch ? raw.slice(titleMatch[0].length) : raw;
+
+  // "Örnek" veya "Örnekler" kelimesinden böl
+  const exMatch = rest.search(/Örnek(?:ler)?[:：\s]/i);
+  const defRaw = exMatch >= 0 ? rest.slice(0, exMatch).trim() : rest.trim();
+  const exRaw  = exMatch >= 0 ? rest.slice(exMatch).trim() : '';
+
+  // Tanımı satırlara böl (\n veya nokta+büyük harf sınırından)
+  const defLines = defRaw.split(/\n/).map(l=>l.trim()).filter(Boolean);
+
+  // Örnekleri satırlara böl
+  const exLines = exRaw.split(/\n/).map(l=>l.trim()).filter(Boolean);
+
+  return { title, defLines, exLines };
+}
+
 function topicHTML(){
   const sub=getSub(S.selSub); if(!sub) return '';
   const p=S.progress[sub.id]||{};
@@ -358,17 +379,15 @@ function topicHTML(){
     <h2>${sub.titles.join(' · ')}</h2>
   </div><div class="tcb">`;
   sub.contents.forEach(c=>{
-    const lines=c.split('\n');
-    const m=lines[0].match(/^(\d+)\.\s*(.+?):\s*$/)||lines[0].match(/^(\d+)\.\s*(.+?):/);
-    const title=m?m[2]:null;
-    const body=title?lines.slice(1):lines;
-    const ei=body.findIndex(l=>l.match(/^Örnek/i));
-    const def=ei>=0?body.slice(0,ei):body;
-    const ex=ei>=0?body.slice(ei):[];
+    const parsed = parseContent(c);
+    if(!parsed) return;
+    const {title, defLines, exLines} = parsed;
     h+=`<div class="st">`;
     if(title) h+=`<div class="st-title">${title}</div>`;
-    h+=`<div class="def">${def.filter(Boolean).map(l=>`<p>${l}</p>`).join('')}</div>`;
-    if(ex.length) h+=`<span class="extag">Örnekler</span><div class="extext">${ex.filter(Boolean).map(l=>`<div>${l}</div>`).join('')}</div>`;
+    // Tanım boşsa tüm metni göster
+    const defToShow = defLines.length > 0 ? defLines : [c];
+    h+=`<div class="def">${defToShow.map(l=>`<p>${l}</p>`).join('')}</div>`;
+    if(exLines.length) h+=`<span class="extag">Örnekler</span><div class="extext">${exLines.map(l=>`<div>${l}</div>`).join('')}</div>`;
     h+=`</div>`;
   });
   h+=`<div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:6px">
