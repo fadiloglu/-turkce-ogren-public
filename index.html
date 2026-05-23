@@ -13,10 +13,22 @@
   --gold:#c9934a;--gold2:#e8b070;
   --teal:#2d6e6e;--teal2:#3d8e8e;
   --red:#c94a4a;--green:#4a8a4a;--card:#fff;
+  --note-bg:rgba(201,147,74,0.08);--note-border:#c9934a;
+  --info-bg:rgba(45,110,110,0.08);--info-border:#2d6e6e;
 }
-body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink)}
+[data-theme="dark"]{
+  --ink:#f0ebe4;--ink2:#c8bfb4;--ink3:#8a7a6e;
+  --cream:#1a1712;--cream2:#221e1a;--cream3:#2e2a25;
+  --card:#1e1b17;--gold:#e8b070;--gold2:#f0c080;
+  --teal:#4a9e9e;--teal2:#5ab0b0;
+  --note-bg:rgba(201,147,74,0.12);
+  --info-bg:rgba(74,158,158,0.12);
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);transition:background .3s,color .3s}
 .app{display:flex;flex-direction:column;height:100vh;overflow:hidden}
-.nav{background:var(--ink);color:var(--cream);padding:0 16px;height:50px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:8px}
+
+/* NAV */
+.nav{background:var(--ink);color:var(--cream);padding:0 16px;height:50px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:8px;transition:background .3s}
 .nav-brand{font-family:'Fraunces',serif;font-size:18px;font-weight:700;white-space:nowrap}
 .nav-brand span{color:var(--gold2)}
 .nav-tabs{display:flex;gap:2px}
@@ -26,8 +38,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink)}
 .nav-right{display:flex;align-items:center;gap:6px}
 .avatar{width:26px;height:26px;border-radius:50%;background:var(--teal2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:white;flex-shrink:0}
 .nav-name{font-size:11px;color:rgba(250,247,242,0.6)}
-.btn-sm{background:none;border:1px solid rgba(255,255,255,0.2);color:rgba(250,247,242,0.6);font-size:10px;padding:3px 8px;border-radius:4px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.btn-sm{background:none;border:1px solid rgba(255,255,255,0.2);color:rgba(250,247,242,0.6);font-size:10px;padding:3px 8px;border-radius:4px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
 .btn-sm:hover{border-color:rgba(255,255,255,0.4);color:var(--cream)}
+
 /* LOGIN */
 .login-wrap{flex:1;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--ink) 0%,#2d2318 50%,var(--teal) 100%);padding:20px}
 .login-card{background:var(--card);border-radius:16px;padding:40px 36px;width:100%;max-width:380px;box-shadow:0 8px 40px rgba(0,0,0,0.3)}
@@ -40,9 +53,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink)}
 .field input:focus{border-color:var(--teal2)}
 .btn-login{width:100%;padding:12px;border-radius:6px;background:var(--ink);color:var(--cream);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;border:none;transition:background .2s;margin-top:8px}
 .btn-login:hover{background:var(--teal)}
+
 /* BODY */
 .body{display:flex;flex:1;overflow:hidden}
-.sidebar{width:230px;flex-shrink:0;background:var(--card);border-right:1px solid var(--cream3);overflow-y:auto;padding:10px}
+.sidebar{width:230px;flex-shrink:0;background:var(--card);border-right:1px solid var(--cream3);overflow-y:auto;padding:10px;transition:background .3s,border .3s}
 .stitle{font-size:10px;font-weight:500;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;padding:4px 8px 10px}
 .tmain{display:flex;align-items:center;gap:6px;padding:8px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:var(--ink2);transition:background .15s;user-select:none}
 .tmain:hover,.tmain.open{background:var(--cream2);color:var(--ink)}
@@ -56,7 +70,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink)}
 .sub-item.active{background:var(--teal);color:white}
 .dot{width:5px;height:5px;border-radius:50%;background:var(--cream3);flex-shrink:0}
 .dot.done{background:var(--green)}.dot.mid{background:var(--gold)}
+
+/* PROGRESS BAR */
+.sub-prog{height:2px;background:var(--cream3);border-radius:1px;margin-top:3px;overflow:hidden}
+.sub-prog-fill{height:100%;border-radius:1px;transition:width .4s ease}
+
+/* CONTENT */
 .content{flex:1;overflow-y:auto;padding:20px;min-width:0}
+
 /* WELCOME */
 .welcome{text-align:center;padding:48px 20px}
 .welcome h2{font-family:'Fraunces',serif;font-size:22px;margin-bottom:8px}
@@ -65,28 +86,51 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink)}
 .stat-c{background:var(--card);border-radius:10px;border:1px solid var(--cream3);padding:14px 22px;text-align:center}
 .stat-n{font-family:'Fraunces',serif;font-size:30px;font-weight:700}
 .stat-l{font-size:11px;color:var(--ink3);margin-top:3px}
+
 /* TOPIC */
-.tc{background:var(--card);border-radius:10px;border:1px solid var(--cream3);overflow:hidden;margin-bottom:16px}
+.tc{background:var(--card);border-radius:10px;border:1px solid var(--cream3);overflow:hidden;margin-bottom:16px;transition:background .3s,border .3s}
 .tch{background:var(--ink);color:var(--cream);padding:18px 22px}
 .tch-sub{font-size:10px;color:var(--gold2);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
 .tch h2{font-size:17px;line-height:1.3}
+
+/* TOPIC PROGRESS BAR */
+.topic-progress-wrap{padding:14px 22px 0;background:var(--ink)}
+.topic-progress-bar{height:4px;background:rgba(255,255,255,0.15);border-radius:2px;overflow:hidden;margin-bottom:14px}
+.topic-progress-fill{height:100%;border-radius:2px;transition:width .6s ease;background:var(--gold2)}
+.topic-progress-label{font-size:10px;color:rgba(250,247,242,0.5);margin-bottom:4px;display:flex;justify-content:space-between}
+
 .tcb{padding:20px}
-.st{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--cream3)}
+.st{margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--cream3)}
 .st:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
-.st-title{font-family:'Fraunces',serif;font-size:14px;color:var(--teal);margin-bottom:8px}
-.def{background:var(--cream);border-left:3px solid var(--gold);padding:10px 14px;border-radius:0 5px 5px 0;margin-bottom:8px}
+.st-title{font-family:'Fraunces',serif;font-size:14px;color:var(--teal);margin-bottom:8px;font-weight:600}
+.def{background:var(--cream);border-left:3px solid var(--gold);padding:10px 14px;border-radius:0 5px 5px 0;margin-bottom:8px;transition:background .3s}
 .def p{font-size:12px;line-height:1.7;color:var(--ink2);margin-bottom:3px}
 .def p:last-child{margin-bottom:0}
 .extag{display:inline-block;font-size:10px;background:var(--teal);color:white;padding:2px 8px;border-radius:20px;margin-bottom:5px;font-weight:500}
 .extext{font-size:11px;color:var(--ink3);font-style:italic;line-height:1.7}
+.extext div{margin-bottom:3px;padding-left:8px;border-left:2px solid var(--cream3)}
+
+/* ÖZEL KUTULAR */
+.note-box{background:var(--note-bg);border-left:3px solid var(--note-border);border-radius:0 6px 6px 0;padding:10px 14px;margin:8px 0;display:flex;gap:8px;align-items:flex-start}
+.note-box .note-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+.note-box .note-text{font-size:11px;line-height:1.7;color:var(--ink2)}
+.note-box .note-label{font-size:10px;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.info-box{background:var(--info-bg);border-left:3px solid var(--info-border);border-radius:0 6px 6px 0;padding:10px 14px;margin:8px 0;display:flex;gap:8px;align-items:flex-start}
+.info-box .note-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+.info-box .note-text{font-size:11px;line-height:1.7;color:var(--ink2)}
+.info-box .note-label{font-size:10px;font-weight:600;color:var(--teal);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+
 .qbtn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:6px;background:var(--teal);color:white;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;border:none;margin-top:14px;transition:all .2s}
 .qbtn:hover:not([disabled]){background:var(--teal2)}
 .qbtn[disabled]{opacity:.5;cursor:not-allowed}
 .spill{font-size:12px;font-weight:600;margin-left:10px}
+
 /* QUIZ */
-.qcard{background:var(--card);border-radius:10px;border:1px solid var(--cream3);overflow:hidden}
+.qcard{background:var(--card);border-radius:10px;border:1px solid var(--cream3);overflow:hidden;transition:background .3s}
 .qh{background:linear-gradient(135deg,var(--teal),var(--teal2));color:white;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
 .qh h3{font-size:13px}.qprog{font-size:11px;opacity:.8}
+.quiz-progress-bar{height:3px;background:rgba(255,255,255,0.2)}
+.quiz-progress-fill{height:100%;background:var(--gold2);transition:width .3s ease}
 .qb{padding:20px}
 .qnum{font-size:10px;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
 .qtext{font-size:14px;line-height:1.6;margin-bottom:16px;color:var(--ink)}
@@ -107,24 +151,30 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink)}
 .bteal{padding:9px 18px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;border:none;background:var(--teal);color:white;transition:background .2s}
 .bteal:hover{background:var(--teal2)}
 .bout{background:none;border:1.5px solid var(--cream3);color:var(--ink2);padding:9px 18px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer}
+
+/* LOADING */
 .loading{display:flex;align-items:center;justify-content:center;gap:12px;padding:48px;color:var(--ink3);font-size:13px;flex-direction:column}
 .spinner{width:26px;height:26px;border:2px solid var(--cream3);border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* RESULT */
 .result-wrap{text-align:center;padding:40px 24px}
 .res-score{font-family:'Fraunces',serif;font-size:56px;font-weight:700;line-height:1}
 .res-label{font-size:13px;color:var(--ink3);margin-top:6px;margin-bottom:24px}
 .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:12px;max-width:280px;margin-left:auto;margin-right:auto}
 .bar-track{flex:1;height:6px;background:var(--cream3);border-radius:3px;overflow:hidden}
 .bar-fill{height:100%;border-radius:3px}
+
+/* REPORTS */
 .rpgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
-.rpm{background:var(--card);border-radius:10px;border:1px solid var(--cream3);padding:14px 18px}
+.rpm{background:var(--card);border-radius:10px;border:1px solid var(--cream3);padding:14px 18px;transition:background .3s}
 .rpl{font-size:11px;color:var(--ink3);margin-bottom:5px;font-weight:500}
 .rpv{font-family:'Fraunces',serif;font-size:28px;font-weight:700}
 .rpv.t{color:var(--teal)}.rpv.g{color:var(--green)}.rpv.a{color:var(--gold)}.rpv.r{color:var(--red)}
 .rps{font-size:11px;color:var(--ink3);margin-top:3px}
-.rt{background:var(--card);border-radius:10px;border:1px solid var(--cream3);overflow:hidden}
+.rt{background:var(--card);border-radius:10px;border:1px solid var(--cream3);overflow:hidden;transition:background .3s}
 .rth{background:var(--ink);color:var(--cream);display:grid;grid-template-columns:1fr 60px 60px 60px 80px;padding:10px 16px;font-size:10px;font-weight:500;letter-spacing:.5px;text-transform:uppercase}
-.rtr{display:grid;grid-template-columns:1fr 60px 60px 60px 80px;padding:11px 16px;border-bottom:1px solid var(--cream3);font-size:12px;align-items:center;transition:background .15s}
+.rtr{display:grid;grid-template-columns:1fr 60px 60px 60px 80px;padding:11px 16px;border-bottom:1px solid var(--cream3);font-size:12px;align-items:center;transition:background .15s;cursor:pointer}
 .rtr:last-child{border-bottom:none}
 .rtr:hover{background:var(--cream)}
 .nc{text-align:center}
@@ -138,126 +188,164 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink)}
 .badge.ba{background:rgba(201,74,74,.1);color:var(--red)}
 .sectitle{font-family:'Fraunces',serif;font-size:16px;margin-bottom:12px;color:var(--ink)}
 .err-box{color:var(--red);font-size:12px;padding:12px 14px;background:rgba(201,74,74,0.06);border-radius:6px;border:1px solid rgba(201,74,74,0.2);margin-bottom:14px}
-.sync-bar{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--ink3);padding:6px 10px;background:var(--cream2);border-radius:6px;margin-bottom:12px}
-.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
-.sync-dot.loading{background:var(--gold);animation:pulse 1s infinite}
-.sync-dot.err{background:var(--red)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ZAYIF KONU UYARISI */
+.weak-alert{background:rgba(201,74,74,0.06);border:1px solid rgba(201,74,74,0.2);border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:12px;color:#8a2d2d;cursor:pointer}
+.weak-alert:hover{background:rgba(201,74,74,0.1)}
+
+@media(max-width:600px){
+  .sidebar{width:180px}
+  .rpgrid{grid-template-columns:1fr 1fr}
+  .rth,.rtr{grid-template-columns:1fr 44px 44px 44px 60px;padding:8px 10px;font-size:10px}
+}
 </style>
 </head>
 <body>
 <div class="app" id="app"></div>
 <script>
-// ── CONFIG — BURAYA KENDİ BİLGİLERİNİ GİR ──────────────────────────────────
+// ── CONFIG ────────────────────────────────────────────────────────────────────
 const CONFIG = {
   SHEET_ID: "1OiiiHdx9ZjtOXu_Y-t5Drv76bMJTrgazBQ5XTsl_qww",
   SHEET_NAME: "Sayfa1",
-  API_KEY: "AIzaSyDOxuTuuU3Zq8n4RfCp5ExzbaSpXCarSSY",   // ← Google Sheets API key
+  API_KEY: "AIzaSyDOxuTuuU3Zq8n4RfCp5ExzbaSpXCarSSY",
 };
-// ────────────────────────────────────────────────────────────────────────────
 
-// ── STATE ────────────────────────────────────────────────────────────────────
+// ── STATE ─────────────────────────────────────────────────────────────────────
 let S = {
-  screen:'login', user:'',
+  screen:'login', user:'', darkMode:false,
   tab:'konular', openMain:null,
   selSub:null, mode:'topic',
   quiz:null, qi:0, qsel:null, qans:false, qres:[],
-  progress:{},
-  topics:[], topicsLoading:false, topicsErr:null, lastSync:null
+  progress:{}, topics:[],
+  topicsLoading:false, topicsErr:null, lastSync:null
 };
-try{ S.progress = JSON.parse(localStorage.getItem('te_v5')||'{}'); }catch(e){}
-const saveP = () => { try{ localStorage.setItem('te_v5',JSON.stringify(S.progress)); }catch(e){} };
+try{ const d=JSON.parse(localStorage.getItem('te_v5')||'{}'); S.progress=d.progress||{}; S.darkMode=d.darkMode||false; }catch(e){}
+function saveState(){ try{ localStorage.setItem('te_v5',JSON.stringify({progress:S.progress,darkMode:S.darkMode})); }catch(e){} }
 const allSubs = () => S.topics.flatMap(t=>t.subs);
 const getSub  = id => allSubs().find(s=>s.id===id);
 const $       = id => document.getElementById(id);
 
-// ── SHEETS OKUMA ─────────────────────────────────────────────────────────────
-function parseCSV(text){
-  const lines = text.split('\n').filter(Boolean);
-  return lines.slice(1).map(line => {
-    const cols=[]; let cur='', inQ=false;
-    for(let i=0;i<line.length;i++){
-      if(line[i]==='"'){ inQ=!inQ; }
-      else if(line[i]===',' && !inQ){ cols.push(cur.trim()); cur=''; }
-      else { cur+=line[i]; }
-    }
-    cols.push(cur.trim());
-    return cols.map(c=>c.replace(/^"|"$/g,'').replace(/""/g,'"'));
-  });
+// ── DARK MODE ─────────────────────────────────────────────────────────────────
+function applyTheme(){
+  document.documentElement.setAttribute('data-theme', S.darkMode ? 'dark' : '');
 }
 
-function buildTopics(rows){
-  const topics=[]; let cur=null;
-  for(const row of rows){
-    const [a,b,c,d,e,f,g]=row;
-    if(!c) continue;
-    if(a && a!=='Ana Konu Sayısı'){
-      cur={id:`m${a}`,num:a,title:c,subs:[]};
-      topics.push(cur);
-    } else if(b && cur){
-      cur.subs.push({
-        id:`s${cur.num}_${b}`, num:b,
-        mNum:cur.num, mTitle:cur.title,
-        titles:c.split(',').map(t=>t.trim()),
-        contents:[d,e,f,g].filter(Boolean)
+// ── SHEETS OKUMA ─────────────────────────────────────────────────────────────
+// Yeni yapı: Her alt konu için ardışık satır grupları
+// Satır tipi A sütununa göre belirlenir:
+//   A dolu + B=0 → Ana konu başlığı
+//   B dolu       → Alt konu başlığı (C = virgülle ayrılmış başlıklar, D-G = içerik grupları)
+// Yeni v2 yapısı: 3 satırlık blok
+//   Satır 1: D=Başlık1, E=Başlık2, F=Başlık3, G=Başlık4
+//   Satır 2: D=Açıklama1, E=Açıklama2, F=Açıklama3, G=Açıklama4
+//   Satır 3: D=Örnek1, E=Örnek2, F=Örnek3, G=Örnek4
+
+async function loadSheets(){
+  S.topicsLoading=true; S.topicsErr=null; render();
+  try{
+    const url=`https://sheets.googleapis.com/v4/spreadsheets/${CONFIG.SHEET_ID}/values/${encodeURIComponent(CONFIG.SHEET_NAME)}?key=${CONFIG.API_KEY}`;
+    const res=await fetch(url);
+    if(!res.ok) throw new Error(`Sheets API ${res.status}`);
+    const data=await res.json();
+    S.topics = parseSheets(data.values||[]);
+    S.lastSync=new Date().toLocaleTimeString('tr-TR');
+    if(S.topics.length>0) S.openMain=S.topics[0].id;
+  }catch(e){
+    S.topicsErr=e.message;
+    S.topics=[];
+  }
+  S.topicsLoading=false; render();
+}
+
+function parseSheets(rows){
+  const topics=[];
+  let curMain=null;
+  let i=0;
+  // Header satırını atla (ilk satır)
+  // Satırları gezerek yapıyı anla
+  for(i=0;i<rows.length;i++){
+    const r=rows[i];
+    const a=(r[0]||'').trim();
+    const b=(r[1]||'').trim();
+    const c=(r[2]||'').trim();
+
+    // Ana konu satırı: A sütununda sayı var, B=0 veya boş
+    if(a && a!=='Ana Konu Sayısı' && !isNaN(a)){
+      curMain={id:`m${a}`,num:a,title:c,subs:[]};
+      topics.push(curMain);
+      continue;
+    }
+
+    // Alt konu satırı: B sütununda sayı var
+    if(b && !isNaN(b) && curMain){
+      // C sütununda virgülle ayrılmış başlıklar
+      const subTitles=c.split(',').map(t=>t.trim()).filter(Boolean);
+
+      // D-G sütunlarından içerik gruplarını çek
+      // Yeni yapıda: bu satır başlıklar, bir sonraki açıklamalar, ondan sonraki örnekler
+      // Eski yapıda: her hücre kendi içinde başlık+açıklama+örnek içeriyor
+
+      // Hangi yapı olduğunu anla: bir sonraki satırda B boşsa ve içerik varsa yeni yapı
+      const nextRow=rows[i+1]||[];
+      const nextB=(nextRow[1]||'').trim();
+      const nextA=(nextRow[0]||'').trim();
+
+      let contents=[];
+
+      if(!nextB && !nextA && nextRow.length>3){
+        // YENİ YAPI: 3 satırlık blok
+        const titleRow=r;         // başlıklar
+        const descRow=rows[i+1]||[];  // açıklamalar
+        const exRow=rows[i+2]||[];    // örnekler
+
+        for(let col=3;col<=6;col++){
+          const t=(titleRow[col]||'').trim();
+          const d=(descRow[col]||'').trim();
+          const ex=(exRow[col]||'').trim();
+          if(t||d) contents.push({title:t,desc:d,example:ex});
+        }
+        i+=2; // 3 satırlık bloğu atla
+      } else {
+        // ESKİ YAPI: her hücre kendi içinde
+        for(let col=3;col<=6;col++){
+          const cell=(r[col]||'').trim();
+          if(cell) contents.push(parseSingleCell(cell));
+        }
+      }
+
+      curMain.subs.push({
+        id:`s${curMain.num}_${b}`,
+        num:b, mNum:curMain.num, mTitle:curMain.title,
+        titles:subTitles, contents
       });
     }
   }
   return topics;
 }
 
-async function loadSheets(){
-  S.topicsLoading=true; S.topicsErr=null; render();
-  try{
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${CONFIG.SHEET_ID}/values/${encodeURIComponent(CONFIG.SHEET_NAME)}?key=${CONFIG.API_KEY}`;
-    const res = await fetch(url);
-    if(!res.ok){
-      // API key yoksa veya hatalıysa CSV fallback dene
-      throw new Error(`Sheets API hatası: ${res.status}`);
-    }
-    const data = await res.json();
-    const rows = data.values || [];
-    // İlk satır header, geri kalanlar veri
-    const dataRows = rows.slice(1).map(r=>{
-      while(r.length<7) r.push('');
-      return r;
-    });
-    S.topics = buildTopics(dataRows);
-    S.lastSync = new Date().toLocaleTimeString('tr-TR');
-    if(S.topics.length>0) S.openMain = S.topics[0].id;
-  } catch(e){
-    S.topicsErr = e.message;
-    // Hata durumunda fallback veri yükle
-    S.topics = FALLBACK_TOPICS;
-    if(S.topics.length>0) S.openMain = S.topics[0].id;
-  }
-  S.topicsLoading=false; render();
+function parseSingleCell(text){
+  // "1. Başlık : açıklama\nÖrnek: ..." formatını parse et
+  const titleMatch=text.match(/^\d+\.\s*([^:]+?)\s*[:：]\s*/);
+  const title=titleMatch?titleMatch[1].trim():null;
+  const rest=titleMatch?text.slice(titleMatch[0].length):text;
+  const exIdx=rest.search(/Örnek(?:ler)?[:：\s]/i);
+  const desc=exIdx>=0?rest.slice(0,exIdx).trim():rest.trim();
+  const example=exIdx>=0?rest.slice(exIdx).trim():'';
+  return {title, desc, example};
 }
 
-// ── FALLBACK VERİ (Sheets bağlanamadığında) ──────────────────────────────────
-const FALLBACK_TOPICS = [
-  { id:"m1", num:"1", title:"Sözcükte Anlam", subs:[
-    { id:"s1_1", num:"1", mNum:"1", mTitle:"Sözcükte Anlam",
-      titles:["Gerçek Anlam","Yan Anlam","Mecaz Anlam","Terim Anlam"],
-      contents:[
-        "1. Gerçek Anlam (Temel Anlam):\nBir sözcüğün söylendiğinde akla gelen ilk ve en yaygın anlamıdır.\nÖrnek: \"Kardeşim, elindeki sıcak çayı masaya bıraktı.\"",
-        "2. Yan Anlam:\nBir sözcüğün gerçek anlamından kopmadan, şekil veya işlev benzerliğiyle kazandığı yeni anlamdır.\nÖrnek: \"Masanın ayağı kırılınca örtü yere düştü.\"",
-        "3. Mecaz Anlam:\nBir sözcüğün gerçek anlamından uzaklaşarak soyut kavramları ifade etmesidir.\nÖrnek: \"Öğretmenimiz bize çok sıcak davrandı.\"",
-        "4. Terim Anlam:\nBir sözcüğün bilim veya meslek dallarına özgü kazandığı özel anlamdır.\nÖrnek: \"Üçgenin iç açılar toplamı 180 derecedir.\""
-      ]
-    },
-    { id:"s1_2", num:"2", mNum:"1", mTitle:"Sözcükte Anlam",
-      titles:["Sesteş Sözcük","Anlamdaş Sözcük"],
-      contents:[
-        "1. Anlamdaş Sözcükler:\nYazılışları farklı ama aynı anlamı taşıyan sözcüklerdir.\nÖrnekler: Siyah–Kara, Okul–Mektep, Hediye–Armağan",
-        "2. Sesteş Sözcükler:\nYazılış ve okunuşları aynı, anlamları farklı sözcüklerdir.\nÖrnekler: Gül (çiçek/eylem), Yüz (100/surat/yüzmek)"
-      ]
-    }
-  ]}
-];
+function detectSpecial(text){
+  // Önemli Not, Bilgi, Dikkat gibi özel etiketleri algıla
+  if(!text) return null;
+  if(/^(önemli\s*not|not|dikkat|uyarı)[:\s!]/i.test(text)) return 'note';
+  if(/^(bilgi|ipucu|hatırla|püf\s*nok)[:\s!]/i.test(text)) return 'info';
+  if(/^⚠|^💡|^ℹ/.test(text)) return text.startsWith('⚠')?'note':'info';
+  return null;
+}
 
 // ── RENDER ────────────────────────────────────────────────────────────────────
 function render(){
+  applyTheme();
   const app=$('app'); if(!app) return;
   if(S.screen==='login'){ app.innerHTML=loginHTML(); return; }
   app.innerHTML=appHTML();
@@ -289,22 +377,26 @@ function appHTML(){
     <div class="nav-right">
       <div class="avatar">${S.user[0].toUpperCase()}</div>
       <span class="nav-name">${S.user}</span>
-      <button class="btn-sm" onclick="loadSheets()" title="Sheets'ten yenile">↻ Yenile</button>
+      <button class="btn-sm" onclick="loadSheets()" title="Sheets'ten yenile">↻</button>
+      <button class="btn-sm" onclick="toggleDark()">${S.darkMode?'☀':'🌙'}</button>
       <button class="btn-sm" onclick="logout()">Çıkış</button>
     </div>
   </nav>
   <div class="body">
     <aside class="sidebar">${sidebarHTML()}</aside>
-    <main class="content">${S.tab==='konular' ? mainHTML() : reportsHTML()}</main>
+    <main class="content">${S.tab==='konular'?mainHTML():reportsHTML()}</main>
   </div>`;
 }
 
 function sidebarHTML(){
-  if(S.topicsLoading) return `<div class="loading" style="padding:24px"><div class="spinner"></div><span>Konular yükleniyor…</span></div>`;
-  let h = `<div class="stitle">Konular</div>`;
-  if(S.lastSync) h+=`<div style="font-size:10px;color:var(--green);padding:0 8px 8px;display:flex;align-items:center;gap:4px"><span style="width:5px;height:5px;border-radius:50%;background:var(--green);display:inline-block"></span>Son sync: ${S.lastSync}</div>`;
-  if(S.topicsErr) h+=`<div style="font-size:10px;color:var(--gold);padding:0 8px 8px">⚠ Sheets bağlanamadı, yerel veri gösteriliyor</div>`;
-  h += S.topics.map(t=>{
+  if(S.topicsLoading) return `<div class="loading" style="padding:24px"><div class="spinner"></div></div>`;
+  let h=`<div class="stitle">Konular</div>`;
+  if(S.lastSync) h+=`<div style="font-size:10px;color:var(--green);padding:0 8px 8px;display:flex;align-items:center;gap:4px">
+    <span style="width:5px;height:5px;border-radius:50%;background:var(--green);display:inline-block;flex-shrink:0"></span>
+    Güncellendi: ${S.lastSync}</div>`;
+  if(S.topicsErr) h+=`<div style="font-size:10px;color:var(--gold);padding:0 8px 10px">⚠ ${S.topicsErr}</div>`;
+
+  h+=S.topics.map(t=>{
     const open=S.openMain===t.id;
     return `<div>
       <div class="tmain ${open?'open':''}" onclick="toggleMain('${t.id}')">
@@ -315,10 +407,17 @@ function sidebarHTML(){
       <div class="subs-wrap ${open?'open':''}">
         ${t.subs.map(s=>{
           const p=S.progress[s.id]||{};
+          const pct=p.solved?Math.round(p.correct/p.solved*100):0;
           const dc=!p.solved?'':(p.correct/p.solved)>=0.7?'done':'mid';
+          const progColor=pct>=70?'var(--green)':pct>=40?'var(--gold)':'var(--red)';
           return `<div class="sub-item ${S.selSub===s.id?'active':''}" onclick="selSub('${s.id}')">
-            <span style="flex:1">${s.titles[0]}</span>
-            <span class="dot ${dc}"></span>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:4px">
+                <span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.titles[0]}</span>
+                <span class="dot ${dc}" style="flex-shrink:0"></span>
+              </div>
+              ${p.solved?`<div class="sub-prog"><div class="sub-prog-fill" style="width:${pct}%;background:${S.selSub===s.id?'white':progColor}"></div></div>`:''}
+            </div>
           </div>`;
         }).join('')}
       </div>
@@ -328,18 +427,32 @@ function sidebarHTML(){
 }
 
 function mainHTML(){
-  if(S.topicsLoading) return `<div class="loading"><div class="spinner"></div><span>Konular yükleniyor…</span></div>`;
+  if(S.topicsLoading) return `<div class="loading"><div class="spinner"></div><span>Yükleniyor…</span></div>`;
   if(!S.selSub){
     const as=allSubs();
     const solved=Object.keys(S.progress).filter(k=>S.progress[k].solved>0).length;
     const good=Object.values(S.progress).filter(p=>p.solved>0&&(p.correct/p.solved)>=0.7).length;
+    // Zayıf konu uyarısı
+    const weakTopics=allSubs().filter(s=>{
+      const p=S.progress[s.id]||{};
+      return p.solved>0&&(p.correct/p.solved)<0.5;
+    });
+    let weakHtml='';
+    if(weakTopics.length>0){
+      weakHtml=weakTopics.map(s=>`<div class="weak-alert" onclick="selSub('${s.id}')">
+        <span>⚠</span>
+        <span><strong>${s.titles[0]}</strong> konusunda %${Math.round((S.progress[s.id].correct/S.progress[s.id].solved)*100)} başarı — tekrar etmek ister misin?</span>
+        <span style="margin-left:auto;font-size:11px;color:var(--red)">→</span>
+      </div>`).join('');
+    }
     return `<div class="welcome">
       <h2>Merhaba, ${S.user}!</h2>
       <p>Soldan bir konu seçerek anlatımı oku,<br>sonra AI destekli test çöz.</p>
+      ${weakHtml}
       <div class="stats-row">
         <div class="stat-c"><div class="stat-n" style="color:var(--teal)">${as.length}</div><div class="stat-l">Alt Konu</div></div>
         <div class="stat-c"><div class="stat-n" style="color:var(--gold)">${solved}</div><div class="stat-l">Test Çözülen</div></div>
-        <div class="stat-c"><div class="stat-n" style="color:var(--green)">${good}</div><div class="stat-l">İyi Puan</div></div>
+        <div class="stat-c"><div class="stat-n" style="color:var(--green)">${good}</div><div class="stat-l">İyi Puan (%70+)</div></div>
       </div>
     </div>`;
   }
@@ -348,54 +461,85 @@ function mainHTML(){
   return topicHTML();
 }
 
-function parseContent(raw){
-  if(!raw) return null;
-  // Başlığı çek: "1. Gerçek Anlam (Temel Anlam) : açıklama..." veya "1. Başlık: açıklama"
-  const titleMatch = raw.match(/^\d+\.\s*([^:]+?)\s*[:：]\s*/);
-  const title = titleMatch ? titleMatch[1].trim() : null;
-  const rest = titleMatch ? raw.slice(titleMatch[0].length) : raw;
-
-  // "Örnek" veya "Örnekler" kelimesinden böl
-  const exMatch = rest.search(/Örnek(?:ler)?[:：\s]/i);
-  const defRaw = exMatch >= 0 ? rest.slice(0, exMatch).trim() : rest.trim();
-  const exRaw  = exMatch >= 0 ? rest.slice(exMatch).trim() : '';
-
-  // Tanımı satırlara böl (\n veya nokta+büyük harf sınırından)
-  const defLines = defRaw.split(/\n/).map(l=>l.trim()).filter(Boolean);
-
-  // Örnekleri satırlara böl
-  const exLines = exRaw.split(/\n/).map(l=>l.trim()).filter(Boolean);
-
-  return { title, defLines, exLines };
-}
-
 function topicHTML(){
   const sub=getSub(S.selSub); if(!sub) return '';
   const p=S.progress[sub.id]||{};
-  const pct=p.solved?Math.round(p.correct/p.solved*100):null;
-  const pc=pct===null?'':pct>=70?'var(--green)':pct>=40?'var(--gold)':'var(--red)';
+  const pct=p.solved?Math.round(p.correct/p.solved*100):0;
+  const pc=pct>=70?'var(--green)':pct>=40?'var(--gold)':'var(--red)';
+  const totalQ=p.solved||0;
+
   let h=`<div class="tc"><div class="tch">
     <div class="tch-sub">${sub.mNum}.${sub.num} · ${sub.mTitle}</div>
     <h2>${sub.titles.join(' · ')}</h2>
-  </div><div class="tcb">`;
+  </div>`;
+
+  // İlerleme çubuğu (daha önce test çözdüyse)
+  if(totalQ>0){
+    h+=`<div class="topic-progress-wrap">
+      <div class="topic-progress-label">
+        <span>İlerleme</span>
+        <span style="color:var(--gold2)">${p.correct}/${totalQ} doğru · %${pct}</span>
+      </div>
+      <div class="topic-progress-bar">
+        <div class="topic-progress-fill" style="width:${pct}%"></div>
+      </div>
+    </div>`;
+  }
+
+  h+=`<div class="tcb">`;
+
   sub.contents.forEach(c=>{
-    const parsed = parseContent(c);
-    if(!parsed) return;
-    const {title, defLines, exLines} = parsed;
+    if(!c) return;
+    const {title,desc,example}=c;
+
+    // Özel kutu kontrolü
+    const descSpecial=detectSpecial(desc);
+    const titleSpecial=detectSpecial(title);
+    const special=titleSpecial||descSpecial;
+
     h+=`<div class="st">`;
-    if(title) h+=`<div class="st-title">${title}</div>`;
-    // Tanım boşsa tüm metni göster
-    const defToShow = defLines.length > 0 ? defLines : [c];
-    h+=`<div class="def">${defToShow.map(l=>`<p>${l}</p>`).join('')}</div>`;
-    if(exLines.length) h+=`<span class="extag">Örnekler</span><div class="extext">${exLines.map(l=>`<div>${l}</div>`).join('')}</div>`;
+
+    if(title && !special){
+      h+=`<div class="st-title">${title}</div>`;
+    }
+
+    if(special==='note'){
+      h+=`<div class="note-box">
+        <span class="note-icon">⚠️</span>
+        <div class="note-text">
+          <div class="note-label">Önemli Not</div>
+          ${title&&titleSpecial?'':title?`<strong>${title}</strong><br>`:''}
+          ${desc}
+        </div>
+      </div>`;
+    } else if(special==='info'){
+      h+=`<div class="info-box">
+        <span class="note-icon">💡</span>
+        <div class="note-text">
+          <div class="note-label">Bilgi</div>
+          ${title&&titleSpecial?'':title?`<strong>${title}</strong><br>`:''}
+          ${desc}
+        </div>
+      </div>`;
+    } else if(desc){
+      h+=`<div class="def"><p>${desc.replace(/\n/g,'</p><p>')}</p></div>`;
+    }
+
+    if(example){
+      h+=`<span class="extag">Örnekler</span>
+        <div class="extext">
+          ${example.split('\n').filter(Boolean).map(l=>`<div>${l}</div>`).join('')}
+        </div>`;
+    }
     h+=`</div>`;
   });
+
   h+=`<div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:6px">
     <button class="qbtn" onclick="startQuiz()">
       <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
       AI Test Çöz
     </button>
-    ${pct!==null?`<span class="spill" style="color:${pc}">Son: ${p.correct}/${p.solved} (%${pct})</span>`:''}
+    ${totalQ>0?`<span class="spill" style="color:${pc}">Son: ${p.correct}/${totalQ} (%${pct})</span>`:''}
   </div></div></div>`;
   return h;
 }
@@ -403,8 +547,13 @@ function topicHTML(){
 function quizHTML(){
   if(!S.quiz) return `<div class="qcard"><div class="loading"><div class="spinner"></div><span>Claude sorular hazırlıyor…</span></div></div>`;
   const q=S.quiz.questions[S.qi], L=['A','B','C','D','E'];
+  const progPct=Math.round((S.qi/S.quiz.questions.length)*100);
   let h=`<div class="qcard">
-    <div class="qh"><h3>${getSub(S.selSub)?.titles[0]}</h3><span class="qprog">Soru ${S.qi+1} / ${S.quiz.questions.length}</span></div>
+    <div class="qh">
+      <h3>${getSub(S.selSub)?.titles[0]}</h3>
+      <span class="qprog">Soru ${S.qi+1} / ${S.quiz.questions.length}</span>
+    </div>
+    <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${progPct}%"></div></div>
     <div class="qb">
       <div class="qnum">Soru ${S.qi+1}</div>
       <div class="qtext">${q.question}</div>
@@ -431,9 +580,11 @@ function resultHTML(){
   const cor=S.qres.filter(r=>r.correct).length, tot=S.qres.length;
   const pct=Math.round(cor/tot*100);
   const col=pct>=70?'var(--green)':pct>=40?'var(--gold)':'var(--red)';
+  const msg=pct>=70?'Harika! Konuyu iyi öğrendin 🎉':pct>=40?'İyi gidiyorsun, biraz daha pratik yap 💪':'Tekrar etmeni öneririm, kafanı karıştıran konuları oku 📚';
   return `<div class="qcard"><div class="result-wrap">
     <div class="res-score" style="color:${col}">${pct}%</div>
     <div class="res-label">${cor} / ${tot} doğru · ${getSub(S.selSub)?.titles[0]}</div>
+    <p style="font-size:12px;color:var(--ink3);margin-bottom:20px">${msg}</p>
     <div class="bar-row">
       <span style="width:48px;color:var(--green);font-weight:500">Doğru</span>
       <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:var(--green)"></div></div>
@@ -459,48 +610,65 @@ function reportsHTML(){
   const pct=ts>0?Math.round(tc/ts*100):0;
   const good=Object.values(S.progress).filter(p=>p.solved>0&&(p.correct/p.solved)>=0.7).length;
   const ns=as.filter(s=>!S.progress[s.id]?.solved).length;
+
   const rows=S.topics.map(t=>{
     const sol=t.subs.reduce((s,sub)=>s+(S.progress[sub.id]?.solved||0),0);
     const cor=t.subs.reduce((s,sub)=>s+(S.progress[sub.id]?.correct||0),0);
     const p=sol>0?Math.round(cor/sol*100):null;
     return{t,sol,cor,p};
   }).filter(r=>r.sol>0).sort((a,b)=>(a.p||0)-(b.p||0));
+
+  // Alt konu bazlı detay
+  const subRows=as.filter(s=>S.progress[s.id]?.solved>0).map(s=>{
+    const p=S.progress[s.id];
+    const pct=Math.round(p.correct/p.solved*100);
+    return{s,p,pct};
+  }).sort((a,b)=>a.pct-b.pct);
+
   let h=`<div class="rpgrid">
     <div class="rpm"><div class="rpl">Toplam Çözülen</div><div class="rpv t">${ts}</div><div class="rps">${att} konudan</div></div>
-    <div class="rpm"><div class="rpl">Genel Başarı</div><div class="rpv ${pct>=70?'g':pct>=40?'a':'r'}">${pct}%</div><div class="rps">${tc} doğru</div></div>
-    <div class="rpm"><div class="rpl">Başlanmamış</div><div class="rpv a">${ns}</div><div class="rps">${as.length} konudan</div></div>
+    <div class="rpm"><div class="rpl">Genel Başarı</div><div class="rpv ${pct>=70?'g':pct>=40?'a':'r'}">${pct}%</div><div class="rps">${tc} doğru / ${ts-tc} yanlış</div></div>
+    <div class="rpm"><div class="rpl">Başlanmamış Konu</div><div class="rpv a">${ns}</div><div class="rps">${as.length} konudan</div></div>
     <div class="rpm"><div class="rpl">İyi Puan (%70+)</div><div class="rpv g">${good}</div><div class="rps">konu tamamlandı</div></div>
   </div>`;
-  if(rows.length){
-    h+=`<div class="sectitle">Konu Bazlı Performans</div><div class="rt">
+
+  if(subRows.length>0){
+    h+=`<div class="sectitle" style="margin-top:8px">Alt Konu Detayı</div><div class="rt">
       <div class="rth"><span>Konu</span><span class="nc">Çözülen</span><span class="nc">Doğru</span><span class="nc">%</span><span class="nc">Durum</span></div>
-      ${rows.map(({t,sol,cor,p})=>`<div class="rtr">
-        <div><span style="font-weight:500">${t.title}</span>
-        <div class="mb"><div class="mbf" style="width:${p}%;background:${p>=70?'var(--green)':p>=40?'var(--gold)':'var(--red)'}"></div></div></div>
-        <div class="nc">${sol}</div><div class="nc">${cor}</div>
-        <div class="pv ${p>=70?'hi':p>=40?'mi':'lo'}">${p}%</div>
-        <div class="nc"><span class="badge ${p>=70?'ok':p>=40?'wa':'ba'}">${p>=70?'İyi':p>=40?'Geliştirilmeli':'Zayıf'}</span></div>
+      ${subRows.map(({s,p,pct})=>`<div class="rtr" onclick="selSubFromReport('${s.id}')">
+        <div>
+          <span style="font-weight:500;font-size:11px">${s.mTitle} › ${s.titles[0]}</span>
+          <div class="mb"><div class="mbf" style="width:${pct}%;background:${pct>=70?'var(--green)':pct>=40?'var(--gold)':'var(--red)'}"></div></div>
+        </div>
+        <div class="nc">${p.solved}</div>
+        <div class="nc">${p.correct}</div>
+        <div class="pv ${pct>=70?'hi':pct>=40?'mi':'lo'}">${pct}%</div>
+        <div class="nc"><span class="badge ${pct>=70?'ok':pct>=40?'wa':'ba'}">${pct>=70?'İyi':pct>=40?'Geliştir':'Zayıf'}</span></div>
       </div>`).join('')}
     </div>`;
   } else {
-    h+=`<div style="text-align:center;padding:36px;color:var(--ink3);background:var(--card);border-radius:10px;border:1px solid var(--cream3);font-size:13px">Henüz test çözmedin. Bir konu seçip AI testini dene!</div>`;
+    h+=`<div style="text-align:center;padding:36px;color:var(--ink3);background:var(--card);border-radius:10px;border:1px solid var(--cream3);font-size:13px">
+      Henüz test çözmedin. Bir konu seçip AI testini dene!
+    </div>`;
   }
   return h;
 }
 
-// ── ACTIONS ──────────────────────────────────────────────────────────────────
+// ── ACTIONS ───────────────────────────────────────────────────────────────────
 function login(){
   const v=$('li')?.value?.trim();
   if(!v){$('le').style.display='block';return;}
   S.user=v; S.screen='app';
-  loadSheets(); // Giriş yapınca Sheets'ten çek
+  loadSheets();
 }
 function logout(){ S.screen='login'; S.user=''; S.selSub=null; S.mode='topic'; render(); }
 function switchTab(t){ S.tab=t; render(); }
 function toggleMain(id){ S.openMain=S.openMain===id?null:id; render(); }
 function selSub(id){ S.selSub=id; S.mode='topic'; S.quiz=null; S.qi=0; S.qsel=null; S.qans=false; S.qres=[]; S.tab='konular'; render(); }
+function selSubFromReport(id){ S.selSub=id; S.tab='konular'; S.mode='topic'; render(); }
 function backTopic(){ S.mode='topic'; render(); }
 function selOpt(i){ if(S.qans)return; S.qsel=i; render(); }
+function toggleDark(){ S.darkMode=!S.darkMode; saveState(); render(); }
 function confirmOpt(){
   if(S.qsel===null)return;
   const ok=S.qsel===S.quiz.questions[S.qi].correct;
@@ -512,7 +680,7 @@ function nextQ(){
     const cor=S.qres.filter(r=>r.correct).length, tot=S.qres.length;
     const prev=S.progress[S.selSub]||{solved:0,correct:0};
     S.progress[S.selSub]={solved:prev.solved+tot,correct:prev.correct+cor};
-    saveP(); S.mode='result';
+    saveState(); S.mode='result';
   }
   render();
 }
@@ -521,17 +689,28 @@ async function startQuiz(){
   S.mode='quiz'; S.quiz=null; S.qi=0; S.qsel=null; S.qans=false; S.qres=[];
   render();
   const sub=getSub(S.selSub);
+  // İçerik özetini hazırla
+  const contentSummary=sub.contents.map(c=>{
+    if(!c) return '';
+    const parts=[];
+    if(c.title) parts.push(c.title);
+    if(c.desc) parts.push(c.desc);
+    if(c.example) parts.push('Örnek: '+c.example);
+    return parts.join('\n');
+  }).join('\n\n');
+
   const prompt=`Sen bir Türkçe dil bilgisi öğretmenisin. Aşağıdaki konu hakkında 5 soruluk çoktan seçmeli test hazırla.
 
 Konu: ${sub.mTitle} > ${sub.titles.join(", ")}
 İçerik:
-${sub.contents.join("\n\n")}
+${contentSummary}
 
 KURALLAR:
 - Her soruda tam 5 şık olmalı (A,B,C,D,E)
-- Her seferinde farklı sorular üret
-- Açıklama kısa ve öğretici olsun
-- SADECE JSON döndür, başka hiçbir şey yazma
+- Her seferinde farklı sorular üret, öncekilerden farklı ol
+- Hem kavram hem örnek üzerinden sorular sor
+- Açıklama kısa ve öğretici olsun (1-2 cümle)
+- SADECE JSON döndür, markdown veya başka hiçbir şey yazma
 
 {"questions":[{"question":"...","options":["A...","B...","C...","D...","E..."],"correct":0,"explanation":"..."}]}`;
 
