@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TürkçeÖğren</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1410;--ink2:#4a3f35;--ink3:#8a7a6e;
+  --cream:#faf7f2;--cream2:#f2ede4;--cream3:#e8e0d4;
+  --gold:#c9934a;--gold2:#e8b070;
+  --teal:#2d6e6e;--teal2:#3d8e8e;
+  --red:#c94a4a;--green:#4a8a4a;--card:#fff;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink)}
+.app{display:flex;flex-direction:column;height:100vh;overflow:hidden}
+.nav{background:var(--ink);color:var(--cream);padding:0 16px;height:50px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:8px;z-index:10}
+.nav-brand{font-family:'Fraunces',serif;font-size:18px;font-weight:700;white-space:nowrap}
+.nav-brand span{color:var(--gold2)}
+.nav-tabs{display:flex;gap:2px}
+.nav-tab{background:none;border:none;color:rgba(250,247,242,0.5);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:5px 12px;border-radius:5px;cursor:pointer;transition:all .2s}
+.nav-tab:hover{color:var(--cream);background:rgba(255,255,255,0.08)}
+.nav-tab.active{color:var(--ink);background:var(--gold2)}
+.nav-right{display:flex;align-items:center;gap:6px}
+.avatar{width:26px;height:26px;border-radius:50%;background:var(--teal2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:white;flex-shrink:0}
+.nav-name{font-size:11px;color:rgba(250,247,242,0.6)}
+.btn-logout{background:none;border:1px solid rgba(255,255,255,0.2);color:rgba(250,247,242,0.6);font-size:10px;padding:3px 8px;border-radius:4px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.btn-logout:hover{border-color:rgba(255,255,255,0.4);color:var(--cream)}
+/* LOGIN */
+.login-wrap{flex:1;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--ink) 0%,#2d2318 50%,var(--teal) 100%);padding:20px}
+.login-card{background:var(--card);border-radius:16px;padding:40px 36px;width:100%;max-width:380px;box-shadow:0 8px 40px rgba(0,0,0,0.3)}
+.login-logo{font-family:'Fraunces',serif;font-size:30px;font-weight:700;margin-bottom:6px}
+.login-logo span{color:var(--gold)}
+.login-sub{color:var(--ink3);font-size:13px;margin-bottom:28px;line-height:1.5}
+.field label{display:block;font-size:11px;font-weight:500;color:var(--ink2);margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase}
+.field input{width:100%;padding:11px 13px;border:1.5px solid var(--cream3);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);background:var(--cream);outline:none;transition:border .2s;margin-bottom:4px}
+.field input:focus{border-color:var(--teal2)}
+.btn-login{width:100%;padding:12px;border-radius:6px;background:var(--ink);color:var(--cream);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;border:none;transition:background .2s;margin-top:8px}
+.btn-login:hover{background:var(--teal)}
+/* BODY */
+.body{display:flex;flex:1;overflow:hidden}
+.sidebar{width:230px;flex-shrink:0;background:var(--card);border-right:1px solid var(--cream3);overflow-y:auto;padding:10px}
+.stitle{font-size:10px;font-weight:500;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;padding:4px 8px 10px}
+.tmain{display:flex;align-items:center;gap:6px;padding:8px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:var(--ink2);transition:background .15s;user-select:none}
+.tmain:hover,.tmain.open{background:var(--cream2);color:var(--ink)}
+.tnum{font-family:'Fraunces',serif;font-size:11px;color:var(--gold);font-weight:700;min-width:16px}
+.chev{margin-left:auto;font-size:10px;color:var(--ink3);transition:transform .2s;display:inline-block;flex-shrink:0}
+.tmain.open .chev{transform:rotate(180deg)}
+.subs-wrap{padding-left:20px;display:none}
+.subs-wrap.open{display:block}
+.sub-item{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;border-radius:5px;cursor:pointer;font-size:11px;color:var(--ink3);transition:all .15s;gap:5px;line-height:1.4}
+.sub-item:hover{background:var(--cream);color:var(--ink2)}
+.sub-item.active{background:var(--teal);color:white}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--cream3);flex-shrink:0}
+.dot.done{background:var(--green)}.dot.mid{background:var(--gold)}
+/* CONTENT */
+.content{flex:1;overflow-y:auto;padding:20px;min-width:0}
+/* WELCOME */
+.welcome{text-align:center;padding:48px 20px}
+.welcome h2{font-family:'Fraunces',serif;font-size:22px;margin-bottom:8px}
+.welcome p{font-size:13px;color:var(--ink3);margin-bottom:24px;line-height:1.6}
+.stats-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.stat-c{background:var(--card);border-radius:10px;border:1px solid var(--cream3);padding:14px 22px;text-align:center}
+.stat-n{font-family:'Fraunces',serif;font-size:30px;font-weight:700}
+.stat-l{font-size:11px;color:var(--ink3);margin-top:3px}
+/* TOPIC */
+.tc{background:var(--card);border-radius:10px;border:1px solid var(--cream3);overflow:hidden;margin-bottom:16px}
+.tch{background:var(--ink);color:var(--cream);padding:18px 22px}
+.tch-sub{font-size:10px;color:var(--gold2);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.tch h2{font-size:17px;line-height:1.3}
+.tcb{padding:20px}
+.st{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--cream3)}
+.st:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.st-title{font-family:'Fraunces',serif;font-size:14px;color:var(--teal);margin-bottom:8px}
+.def{background:var(--cream);border-left:3px solid var(--gold);padding:10px 14px;border-radius:0 5px 5px 0;margin-bottom:8px}
+.def p{font-size:12px;line-height:1.7;color:var(--ink2);margin-bottom:3px}
+.def p:last-child{margin-bottom:0}
+.extag{display:inline-block;font-size:10px;background:var(--teal);color:white;padding:2px 8px;border-radius:20px;margin-bottom:5px;font-weight:500}
+.extext{font-size:11px;color:var(--ink3);font-style:italic;line-height:1.7}
+.qbtn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:6px;background:var(--teal);color:white;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;border:none;margin-top:14px;transition:all .2s}
+.qbtn:hover:not([disabled]){background:var(--teal2)}
+.qbtn[disabled]{opacity:.5;cursor:not-allowed}
+.spill{font-size:12px;font-weight:600;margin-left:10px}
+/* QUIZ */
+.qcard{background:var(--card);border-radius:10px;border:1px solid var(--cream3);overflow:hidden}
+.qh{background:linear-gradient(135deg,var(--teal),var(--teal2));color:white;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.qh h3{font-size:13px}.qh .qprog{font-size:11px;opacity:.8}
+.qb{padding:20px}
+.qnum{font-size:10px;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.qtext{font-size:14px;line-height:1.6;margin-bottom:16px;color:var(--ink)}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{padding:10px 14px;border-radius:6px;border:1.5px solid var(--cream3);cursor:pointer;font-size:12px;text-align:left;background:none;font-family:'DM Sans',sans-serif;color:var(--ink2);transition:all .2s;display:flex;gap:10px;align-items:flex-start;width:100%}
+.opt:hover:not([disabled]){border-color:var(--teal2);background:var(--cream)}
+.opt.sel{border-color:var(--teal);background:rgba(45,110,110,0.06);color:var(--ink)}
+.opt.correct{border-color:var(--green);background:rgba(74,138,74,0.08);color:var(--green)}
+.opt.wrong{border-color:var(--red);background:rgba(201,74,74,0.06);color:var(--red)}
+.optl{font-family:'Fraunces',serif;font-weight:700;font-size:13px;min-width:16px;color:var(--ink3);flex-shrink:0}
+.opt.correct .optl{color:var(--green)}.opt.wrong .optl{color:var(--red)}.opt.sel .optl{color:var(--teal)}
+.fb{margin-top:12px;padding:10px 14px;border-radius:6px;font-size:12px;line-height:1.6}
+.fb.ok{background:rgba(74,138,74,0.08);color:#2d6e2d;border:1px solid rgba(74,138,74,0.2)}
+.fb.no{background:rgba(201,74,74,0.06);color:#8a2d2d;border:1px solid rgba(201,74,74,0.15)}
+.qact{margin-top:14px;display:flex;gap:8px;justify-content:flex-end}
+.bgold{padding:9px 18px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;border:none;background:var(--gold);color:white;transition:background .2s}
+.bgold:hover{background:var(--gold2)}
+.bteal{padding:9px 18px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;border:none;background:var(--teal);color:white;transition:background .2s}
+.bteal:hover{background:var(--teal2)}
+.bout{background:none;border:1.5px solid var(--cream3);color:var(--ink2);padding:9px 18px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer}
+.bout:hover{border-color:var(--ink);color:var(--ink)}
+/* LOADING */
+.loading{display:flex;align-items:center;justify-content:center;gap:12px;padding:48px;color:var(--ink3);font-size:13px;flex-direction:column}
+.spinner{width:26px;height:26px;border:2px solid var(--cream3);border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* RESULT */
+.result-wrap{text-align:center;padding:40px 24px}
+.res-score{font-family:'Fraunces',serif;font-size:56px;font-weight:700;line-height:1}
+.res-label{font-size:13px;color:var(--ink3);margin-top:6px;margin-bottom:24px}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:12px;max-width:280px;margin-left:auto;margin-right:auto}
+.bar-track{flex:1;height:6px;background:var(--cream3);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;transition:width .6s ease}
+/* REPORTS */
+.rpgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
+.rpm{background:var(--card);border-radius:10px;border:1px solid var(--cream3);padding:14px 18px}
+.rpl{font-size:11px;color:var(--ink3);margin-bottom:5px;font-weight:500}
+.rpv{font-family:'Fraunces',serif;font-size:28px;font-weight:700}
+.rpv.t{color:var(--teal)}.rpv.g{color:var(--green)}.rpv.a{color:var(--gold)}.rpv.r{color:var(--red)}
+.rps{font-size:11px;color:var(--ink3);margin-top:3px}
+.rt{background:var(--card);border-radius:10px;border:1px solid var(--cream3);overflow:hidden}
+.rth{background:var(--ink);color:var(--cream);display:grid;grid-template-columns:1fr 60px 60px 60px 80px;padding:10px 16px;font-size:10px;font-weight:500;letter-spacing:.5px;text-transform:uppercase}
+.rtr{display:grid;grid-template-columns:1fr 60px 60px 60px 80px;padding:11px 16px;border-bottom:1px solid var(--cream3);font-size:12px;align-items:center;transition:background .15s}
+.rtr:last-child{border-bottom:none}
+.rtr:hover{background:var(--cream)}
+.nc{text-align:center}
+.pv{text-align:center;font-weight:600}
+.pv.hi{color:var(--green)}.pv.mi{color:var(--gold)}.pv.lo{color:var(--red)}
+.mb{height:3px;background:var(--cream3);border-radius:2px;overflow:hidden;margin-top:3px}
+.mbf{height:100%;border-radius:2px}
+.badge{font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500}
+.badge.ok{background:rgba(74,138,74,.1);color:var(--green)}
+.badge.wa{background:rgba(201,147,74,.15);color:var(--gold)}
+.badge.ba{background:rgba(201,74,74,.1);color:var(--red)}
+.sectitle{font-family:'Fraunces',serif;font-size:16px;margin-bottom:12px;color:var(--ink)}
+.err-box{color:var(--red);font-size:12px;padding:12px 14px;background:rgba(201,74,74,0.06);border-radius:6px;border:1px solid rgba(201,74,74,0.2);margin-bottom:14px}
+@media(max-width:600px){
+  .sidebar{width:180px}
+  .rpgrid{grid-template-columns:1fr 1fr}
+  .rth,.rtr{grid-template-columns:1fr 44px 44px 44px 60px;padding:8px 10px;font-size:10px}
+}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<script>
+const TOPICS = [
+  { id:"m1", num:"1", title:"Sözcükte Anlam", subs:[
+    { id:"s1_1", num:"1", mNum:"1", mTitle:"Sözcükte Anlam",
+      titles:["Gerçek Anlam","Yan Anlam","Mecaz Anlam","Terim Anlam"],
+      contents:[
+        "1. Gerçek Anlam (Temel Anlam):\nBir sözcüğün söylendiğinde akla gelen ilk ve en yaygın anlamıdır. Sözlükteki ilk anlam olarak bilinir.\nÖrnek: \"Kardeşim, elindeki sıcak çayı masaya bıraktı.\" (sıcak = ısısı yüksek)",
+        "2. Yan Anlam:\nBir sözcüğün gerçek anlamından tamamen kopmadan, şekil veya işlev benzerliğiyle kazandığı yeni anlamdır.\nÖrnek: \"Masanın ayağı kırılınca örtü yere düştü.\" (insan ayağına benzerlik)",
+        "3. Mecaz Anlam:\nBir sözcüğün gerçek anlamından tamamen uzaklaşarak soyut kavramları ifade etmek için kullanıldığı anlamdır.\nÖrnek: \"Öğretmenimiz bize çok sıcak davrandı.\" (sıcak = samimi, dostça)",
+        "4. Terim Anlam:\nBir sözcüğün bilim, sanat, spor veya meslek dallarına özgü kazandığı özel anlamdır.\nÖrnek: \"Üçgenin iç açılar toplamı 180 derecedir.\" (açı = matematik terimi)"
+      ]
+    },
+    { id:"s1_2", num:"2", mNum:"1", mTitle:"Sözcükte Anlam",
+      titles:["Sesteş Sözcük (Eş Sesli)","Anlamdaş Sözcük (Eş Anlamlı)"],
+      contents:[
+        "1. Anlamdaş (Eş Anlamlı) Sözcükler:\nYazılışları farklı olmasına rağmen aynı anlamı taşıyan sözcüklerdir. Birbirinin yerine kullanılabilirler.\nÖrnekler: Siyah–Kara, Cevap–Yanıt, Okul–Mektep, Hediye–Armağan",
+        "2. Sesteş (Eş Sesli) Sözcükler:\nYazılış ve okunuşları aynı, anlamları tamamen farklı sözcüklerdir. Aralarında anlam bağı yoktur.\nÖrnekler:\nGül → çiçek / gülmek eylemi\nYüz → sayı (100) / surat / yüzmek\nÇay → içecek / küçük akarsu\nDal → ağaç kolu / dalmak eylemi"
+      ]
+    },
+    { id:"s1_3", num:"3", mNum:"1", mTitle:"Sözcükte Anlam",
+      titles:["Yakın Anlamlı Sözcük","Zıt Anlamlı Sözcük"],
+      contents:[
+        "1. Yakın Anlamlı Sözcükler:\nBirbirine çok yakın ama tam aynı anlamı taşımayan sözcüklerdir. Aralarında ince anlam farkları vardır.\nÖrnekler:\nBasmak – Çiğnemek (ayakla yapılan benzer ama farklı hareketler)\nKüsmek – Darılmak – Gücenmek (kırgınlık dereceleri farklı)\nEş – Dost (yakınlık derecesi farklı)",
+        "2. Zıt (Karşıt) Anlamlı Sözcükler:\nAnlam bakımından birbirinin tam karşıtı olan sözcüklerdir.\nÖrnekler: Sıcak–Soğuk, İleri–Geri, Zengin–Fakir, Hızlı–Yavaş, Güzel–Çirkin"
+      ]
+    },
+    { id:"s1_4", num:"4", mNum:"1", mTitle:"Sözcükte Anlam",
+      titles:["Genel-Özel Anlam","Nitel-Nicel Anlam"],
+      contents:[
+        "1. Genel ve Özel Anlamlı Sözcükler:\nGenel Anlam: Geniş kapsamlı, bir türün tamamını kapsayan sözcüklerdir.\nÖzel Anlam: Dar kapsamlı, bir türün tek örneğini ifade eder.\nÖrnek (Genelden Özele): Varlık → Canlı → Hayvan → Kuş → Kanarya\nÖrnek (Özelden Genele): Gül → Çiçek → Bitki → Canlı → Varlık",
+        "2. Nicel ve Nitel Anlamlı Sözcükler:\nNicel Anlam: Ölçülebilen, sayılabilen özellikleri gösterir.\nÖrnek: \"Yüksek bir binanın önünde durduk.\" (metre ile ölçülür)\nNitel Anlam: Ölçülemeyen, kalite veya nitelik bildiren anlamdır.\nÖrnek: \"Onunla yüksek ideallerimiz var.\" (ölçülemez, nitelik bildirir)"
+      ]
+    },
+    { id:"s1_5", num:"5", mNum:"1", mTitle:"Sözcükte Anlam",
+      titles:["Somut-Soyut Sözcük","Ad Aktarması"],
+      contents:[
+        "1. Somut Anlamlı Sözcükler:\nBeş duyudan en az biriyle algılayabildiğimiz varlıkları karşılayan sözcüklerdir.\nÖrnekler: Rüzgar (dokunma), Ses (işitme), Işık (görme), Koku (koklama), Tatlı (tatma)",
+        "2. Soyut Anlamlı Sözcükler:\nBeş duyuyla algılanamayan, zihin veya duygularla var olduğunu bildiğimiz kavramlardır.\nÖrnekler: Mutluluk, sevgi, nefret, cesaret, akıl, rüya\nNot: Somutlaştırma → soyut kavramı somutmuş gibi anlatma: \"Yalnızlık bir elbise gibi üstüme yapıştı.\"",
+        "3. Ad Aktarması (Mecaz-ı Mürsel):\nBenzetme amacı gütmeden bir sözcüğün başka bir sözcük yerine kullanılmasıdır.\nÖrnekler:\nİç-Dış: \"Annem tencereyi ocağa koydu.\" → tencerenin içindeki yemek\nYer-İnsan: \"Tüm Ankara ayağa kalktı.\" → Ankara'daki insanlar\nYazar-Eser: \"Bu akşam Tanpınar okuyacağım.\" → Tanpınar'ın kitabı\nParça-Bütün: \"Ünlü raket turnuvadan elendi.\" → tenisçi"
+      ]
+    },
+    { id:"s1_6", num:"6", mNum:"1", mTitle:"Sözcükte Anlam",
+      titles:["Deyim Aktarması"],
+      contents:[
+        "1. İnsandan Doğaya Aktarma (Kişileştirme):\nİnsana özgü duygu ve davranışların doğadaki cansız varlıklara aktarılmasıdır.\nÖrnek: \"Hırçın dalgalar dövüyordu kıyıları.\"\nÖrnek: \"Güneş bugün bize gülümsüyor.\"",
+        "2. Doğadan İnsana Aktarma:\nDoğadaki varlıklara özgü özelliklerin insanlar için kullanılmasıdır.\nÖrnek: \"O kadar sert bir adam ki kimse yanına yaklaşamıyor.\"\nÖrnek: \"Sınıfın en pişkin öğrencisi yine geç kaldı.\"",
+        "3. Doğadan Doğaya Aktarma:\nDoğadaki bir varlığın özelliğinin başka bir doğa varlığına aktarılmasıdır.\nÖrnek: \"Rüzgarlar ovada uluyor.\" (ulamak → kurda özgü)\nÖrnek: \"Güneşin ışıkları karlarda dans ediyordu.\"",
+        "4. Duyular Arası Aktarma:\nBir duyuyla algılanan özelliğin başka bir duyuya aktarılarak ifade edilmesidir.\nÖrnek: \"Keskin bir koku odayı sardı.\" (keskin: dokunma → koklama)\nÖrnek: \"Yumuşak bir sesi vardı.\" (yumuşak: dokunma → işitme)"
+      ]
+    },
+    { id:"s1_7", num:"7", mNum:"1", mTitle:"Sözcükte Anlam",
+      titles:["Dolaylama","Güzel Adlandırma"],
+      contents:[
+        "1. Dolaylama:\nTek sözcükle anlatılabilecek bir kavramı, daha etkili kılmak için birden fazla sözcükle ifade etmektir. Varlığın belirgin özelliği ön plana çıkarılır.\nÖrnekler:\nKıbrıs → Yavru vatan\nKaleci → File bekçisi\nTeleviyon → Beyaz cam\nKömür → Kara elmas / Karaelmas\nPamuk → Beyaz altın\nAtatürk → Ulu Önder\nAslan → Ormanların kralı",
+        "2. Güzel Adlandırma:\nOlumsuz, kaba veya ürkütücü çağrışım uyandıran kavramları daha zarif sözcüklerle ifade etmektir.\nNot: Güzel adlandırma, özel bir amaçla yapılan dolaylama türüdür.\nÖrnekler:\nÖlüm → Son yolculuk / Vefat etmek / Hayata gözlerini yummak\nKör → Görme engelli\nSağır → İşitme engelli\nVerem → İnce hastalık\nCin → İyi saatte olsunlar / Üç harfliler"
+      ]
+    }
+  ]}
+];
+
+let S = {
+  screen:'login', user:'',
+  tab:'konular', openMain:'m1',
+  selSub:null, mode:'topic',
+  quiz:null, qi:0, qsel:null, qans:false, qres:[],
+  progress:{}, err:null
+};
+try{ S.progress = JSON.parse(localStorage.getItem('te_v4')||'{}'); }catch(e){}
+const saveP = () => { try{ localStorage.setItem('te_v4',JSON.stringify(S.progress)); }catch(e){} };
+const allSubs = () => TOPICS.flatMap(t=>t.subs);
+const getSub = id => allSubs().find(s=>s.id===id);
+const $ = id => document.getElementById(id);
+
+function render(){
+  const app = $('app');
+  if(!app) return;
+  if(S.screen==='login'){ app.innerHTML = loginHTML(); return; }
+  app.innerHTML = appHTML();
+}
+
+function loginHTML(){
+  return `<div class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo">Türkçe<span>Öğren</span></div>
+      <div class="login-sub">Konu anlatımı, örnekler ve AI destekli testlerle Türkçe'yi pekiştir.</div>
+      <div class="field">
+        <label>İsminiz</label>
+        <input id="li" placeholder="Adınızı girin" onkeydown="if(event.key==='Enter')login()">
+      </div>
+      <p id="le" style="color:var(--red);font-size:11px;margin-bottom:8px;display:none">Lütfen isminizi girin.</p>
+      <button class="btn-login" onclick="login()">Giriş Yap →</button>
+      <p style="font-size:11px;color:var(--ink3);margin-top:14px;text-align:center">İlerlemeniz bu tarayıcıda saklanır.</p>
+    </div>
+  </div>`;
+}
+
+function appHTML(){
+  return `<nav class="nav">
+    <div class="nav-brand">Türkçe<span>Öğren</span></div>
+    <div class="nav-tabs">
+      <button class="nav-tab ${S.tab==='konular'?'active':''}" onclick="tab('konular')">Konular</button>
+      <button class="nav-tab ${S.tab==='raporlar'?'active':''}" onclick="tab('raporlar')">Raporlarım</button>
+    </div>
+    <div class="nav-right">
+      <div class="avatar">${S.user[0].toUpperCase()}</div>
+      <span class="nav-name">${S.user}</span>
+      <button class="btn-logout" onclick="logout()">Çıkış</button>
+    </div>
+  </nav>
+  <div class="body">
+    <aside class="sidebar">${sidebarHTML()}</aside>
+    <main class="content">${S.tab==='konular' ? mainHTML() : reportsHTML()}</main>
+  </div>`;
+}
+
+function sidebarHTML(){
+  return `<div class="stitle">Konular</div>` + TOPICS.map(t=>{
+    const open = S.openMain===t.id;
+    return `<div>
+      <div class="tmain ${open?'open':''}" onclick="toggleMain('${t.id}')">
+        <span class="tnum">${t.num}.</span>
+        <span style="flex:1">${t.title}</span>
+        <span class="chev">▾</span>
+      </div>
+      <div class="subs-wrap ${open?'open':''}">
+        ${t.subs.map(s=>{
+          const p=S.progress[s.id]||{};
+          const dc=!p.solved?'':(p.correct/p.solved)>=0.7?'done':'mid';
+          return `<div class="sub-item ${S.selSub===s.id?'active':''}" onclick="selSub('${s.id}')">
+            <span style="flex:1">${s.titles[0]}</span>
+            <span class="dot ${dc}"></span>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function mainHTML(){
+  if(!S.selSub){
+    const as=allSubs(), solved=Object.keys(S.progress).filter(k=>S.progress[k].solved>0).length;
+    const good=Object.values(S.progress).filter(p=>p.solved>0&&(p.correct/p.solved)>=0.7).length;
+    return `<div class="welcome">
+      <h2>Merhaba, ${S.user}!</h2>
+      <p>Soldan bir konu seçerek anlatımı oku,<br>sonra AI destekli test çöz.</p>
+      <div class="stats-row">
+        <div class="stat-c"><div class="stat-n" style="color:var(--teal)">${as.length}</div><div class="stat-l">Alt Konu</div></div>
+        <div class="stat-c"><div class="stat-n" style="color:var(--gold)">${solved}</div><div class="stat-l">Test Çözülen</div></div>
+        <div class="stat-c"><div class="stat-n" style="color:var(--green)">${good}</div><div class="stat-l">İyi Puan (%70+)</div></div>
+      </div>
+    </div>`;
+  }
+  if(S.mode==='quiz') return quizHTML();
+  if(S.mode==='result') return resultHTML();
+  return topicHTML();
+}
+
+function topicHTML(){
+  const sub=getSub(S.selSub); if(!sub) return '';
+  const p=S.progress[sub.id]||{};
+  const pct=p.solved?Math.round(p.correct/p.solved*100):null;
+  const pc=pct===null?'':pct>=70?'var(--green)':pct>=40?'var(--gold)':'var(--red)';
+  let h=`<div class="tc"><div class="tch">
+    <div class="tch-sub">${sub.mNum}.${sub.num} · ${sub.mTitle}</div>
+    <h2>${sub.titles.join(' · ')}</h2>
+  </div><div class="tcb">`;
+  sub.contents.forEach(c=>{
+    const lines=c.split('\n');
+    const m=lines[0].match(/^(\d+)\.\s*(.+?):\s*$/)||lines[0].match(/^(\d+)\.\s*(.+?):/);
+    const title=m?m[2]:null;
+    const body=title?lines.slice(1):lines;
+    const ei=body.findIndex(l=>l.match(/^Örnek/i));
+    const def=ei>=0?body.slice(0,ei):body;
+    const ex=ei>=0?body.slice(ei):[];
+    h+=`<div class="st">`;
+    if(title) h+=`<div class="st-title">${title}</div>`;
+    h+=`<div class="def">${def.filter(Boolean).map(l=>`<p>${l}</p>`).join('')}</div>`;
+    if(ex.length) h+=`<span class="extag">Örnekler</span><div class="extext">${ex.filter(Boolean).map(l=>`<div>${l}</div>`).join('')}</div>`;
+    h+=`</div>`;
+  });
+  h+=`<div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:6px">
+    <button class="qbtn" id="qstart" onclick="startQuiz()">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      AI Test Çöz
+    </button>
+    ${pct!==null?`<span class="spill" style="color:${pc}">Son: ${p.correct}/${p.solved} (%${pct})</span>`:''}
+  </div>`;
+  h+=`</div></div>`;
+  return h;
+}
+
+function quizHTML(){
+  if(!S.quiz) return `<div class="qcard"><div class="loading"><div class="spinner"></div><span>Claude sorular hazırlıyor…</span></div></div>`;
+  const q=S.quiz.questions[S.qi], L=['A','B','C','D','E'];
+  let h=`<div class="qcard">
+    <div class="qh"><h3>${getSub(S.selSub)?.titles[0]}</h3><span class="qprog">Soru ${S.qi+1} / ${S.quiz.questions.length}</span></div>
+    <div class="qb">
+      <div class="qnum">Soru ${S.qi+1}</div>
+      <div class="qtext">${q.question}</div>
+      <div class="opts">`;
+  q.options.forEach((o,i)=>{
+    let cls='opt';
+    if(S.qans){if(i===q.correct)cls+=' correct';else if(i===S.qsel)cls+=' wrong';}
+    else if(i===S.qsel)cls+=' sel';
+    h+=`<button class="${cls}" onclick="selOpt(${i})" ${S.qans?'disabled':''}><span class="optl">${L[i]}</span><span>${o}</span></button>`;
+  });
+  h+=`</div>`;
+  if(S.qans){
+    const ok=S.qres[S.qres.length-1]?.correct;
+    h+=`<div class="fb ${ok?'ok':'no'}">${ok?'✓ Doğru! ':'✗ Yanlış. '}${q.explanation}</div>`;
+  }
+  h+=`<div class="qact">`;
+  if(!S.qans) h+=`<button class="bteal" onclick="confirm_()" ${S.qsel===null?'disabled':''}>Cevapla</button>`;
+  else h+=`<button class="bgold" onclick="nextQ()">${S.qi+1>=S.quiz.questions.length?'Sonuçları Gör →':'Sonraki Soru →'}</button>`;
+  h+=`</div></div></div>`;
+  return h;
+}
+
+function resultHTML(){
+  const cor=S.qres.filter(r=>r.correct).length, tot=S.qres.length;
+  const pct=Math.round(cor/tot*100);
+  const col=pct>=70?'var(--green)':pct>=40?'var(--gold)':'var(--red)';
+  return `<div class="qcard"><div class="result-wrap">
+    <div class="res-score" style="color:${col}">${pct}%</div>
+    <div class="res-label">${cor} / ${tot} doğru · ${getSub(S.selSub)?.titles[0]}</div>
+    <div class="bar-row">
+      <span style="width:48px;color:var(--green);font-weight:500">Doğru</span>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:var(--green)"></div></div>
+      <span style="width:16px;text-align:right;font-weight:600;color:var(--green)">${cor}</span>
+    </div>
+    <div class="bar-row">
+      <span style="width:48px;color:var(--red);font-weight:500">Yanlış</span>
+      <div class="bar-track"><div class="bar-fill" style="width:${100-pct}%;background:var(--red)"></div></div>
+      <span style="width:16px;text-align:right;font-weight:600;color:var(--red)">${tot-cor}</span>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+      <button class="bteal" onclick="backTopic()">Konuya Dön</button>
+      <button class="bgold" onclick="startQuiz()">Yeni Sorularla Tekrar</button>
+    </div>
+  </div></div>`;
+}
+
+function reportsHTML(){
+  const as=allSubs();
+  const ts=Object.values(S.progress).reduce((s,p)=>s+(p.solved||0),0);
+  const tc=Object.values(S.progress).reduce((s,p)=>s+(p.correct||0),0);
+  const att=Object.keys(S.progress).filter(k=>S.progress[k].solved>0).length;
+  const pct=ts>0?Math.round(tc/ts*100):0;
+  const good=Object.values(S.progress).filter(p=>p.solved>0&&(p.correct/p.solved)>=0.7).length;
+  const ns=as.filter(s=>!S.progress[s.id]?.solved).length;
+  const rows=TOPICS.map(t=>{
+    const sol=t.subs.reduce((s,sub)=>s+(S.progress[sub.id]?.solved||0),0);
+    const cor=t.subs.reduce((s,sub)=>s+(S.progress[sub.id]?.correct||0),0);
+    const p=sol>0?Math.round(cor/sol*100):null;
+    return{t,sol,cor,p};
+  }).filter(r=>r.sol>0).sort((a,b)=>(a.p||0)-(b.p||0));
+
+  let h=`<div class="rpgrid">
+    <div class="rpm"><div class="rpl">Toplam Çözülen</div><div class="rpv t">${ts}</div><div class="rps">${att} konudan</div></div>
+    <div class="rpm"><div class="rpl">Genel Başarı</div><div class="rpv ${pct>=70?'g':pct>=40?'a':'r'}">${pct}%</div><div class="rps">${tc} doğru</div></div>
+    <div class="rpm"><div class="rpl">Başlanmamış</div><div class="rpv a">${ns}</div><div class="rps">${as.length} konudan</div></div>
+    <div class="rpm"><div class="rpl">İyi Puan (%70+)</div><div class="rpv g">${good}</div><div class="rps">konu tamamlandı</div></div>
+  </div>`;
+  if(rows.length){
+    h+=`<div class="sectitle">Konu Bazlı Performans</div><div class="rt">
+      <div class="rth"><span>Konu</span><span class="nc">Çözülen</span><span class="nc">Doğru</span><span class="nc">%</span><span class="nc">Durum</span></div>
+      ${rows.map(({t,sol,cor,p})=>`<div class="rtr">
+        <div><span style="font-weight:500">${t.title}</span>
+        <div class="mb"><div class="mbf" style="width:${p}%;background:${p>=70?'var(--green)':p>=40?'var(--gold)':'var(--red)'}"></div></div></div>
+        <div class="nc">${sol}</div><div class="nc">${cor}</div>
+        <div class="pv ${p>=70?'hi':p>=40?'mi':'lo'}">${p}%</div>
+        <div class="nc"><span class="badge ${p>=70?'ok':p>=40?'wa':'ba'}">${p>=70?'İyi':p>=40?'Geliştirilmeli':'Zayıf'}</span></div>
+      </div>`).join('')}
+    </div>`;
+  } else {
+    h+=`<div style="text-align:center;padding:36px;color:var(--ink3);background:var(--card);border-radius:10px;border:1px solid var(--cream3);font-size:13px">Henüz test çözmedin. Bir konu seçip AI testini dene!</div>`;
+  }
+  return h;
+}
+
+// ── ACTIONS ──
+function login(){
+  const v=$('li')?.value?.trim();
+  if(!v){$('le').style.display='block';return;}
+  S.user=v; S.screen='app'; render();
+}
+function logout(){ S.screen='login'; S.user=''; S.selSub=null; S.mode='topic'; render(); }
+function tab(t){ S.tab=t; render(); }
+function toggleMain(id){ S.openMain=S.openMain===id?null:id; render(); }
+function selSub(id){ S.selSub=id; S.mode='topic'; S.quiz=null; S.qi=0; S.qsel=null; S.qans=false; S.qres=[]; S.tab='konular'; render(); }
+function backTopic(){ S.mode='topic'; render(); }
+function selOpt(i){ if(S.qans)return; S.qsel=i; render(); }
+function confirm_(){ 
+  if(S.qsel===null)return;
+  const ok=S.qsel===S.quiz.questions[S.qi].correct;
+  S.qres.push({correct:ok}); S.qans=true; render();
+}
+function nextQ(){
+  S.qi++; S.qsel=null; S.qans=false;
+  if(S.qi>=S.quiz.questions.length){
+    const cor=S.qres.filter(r=>r.correct).length, tot=S.qres.length;
+    const prev=S.progress[S.selSub]||{solved:0,correct:0};
+    S.progress[S.selSub]={solved:prev.solved+tot,correct:prev.correct+cor};
+    saveP(); S.mode='result';
+  }
+  render();
+}
+
+async function startQuiz(){
+  S.mode='quiz'; S.quiz=null; S.qi=0; S.qsel=null; S.qans=false; S.qres=[];
+  render();
+  const sub=getSub(S.selSub);
+  const prompt=`Sen bir Türkçe dil bilgisi öğretmenisin. Aşağıdaki konu hakkında 5 soruluk çoktan seçmeli test hazırla.
+
+Konu: ${sub.mTitle} > ${sub.titles.join(", ")}
+İçerik:
+${sub.contents.join("\n\n")}
+
+KURALLAR:
+- Her soruda tam 5 şık olmalı (A,B,C,D,E)
+- Her seferinde farklı sorular üret, tekrar etme
+- Açıklama kısa ve öğretici olsun
+- SADECE JSON döndür, başka hiçbir şey yazma
+
+{"questions":[{"question":"...","options":["A...","B...","C...","D...","E..."],"correct":0,"explanation":"..."}]}`;
+
+  try{
+    const r=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1500,messages:[{role:"user",content:prompt}]})
+    });
+    if(!r.ok) throw new Error(`HTTP ${r.status}`);
+    const d=await r.json();
+    const txt=d.content.map(c=>c.text||'').join('').replace(/```json|```/g,'').trim();
+    S.quiz=JSON.parse(txt); render();
+  }catch(e){
+    S.mode='topic'; render();
+    setTimeout(()=>{
+      const c=document.querySelector('.content');
+      if(c){ const div=document.createElement('div'); div.className='err-box'; div.style.marginBottom='16px'; div.textContent=`Sorular üretilemedi: ${e.message}`; c.prepend(div); }
+    },50);
+  }
+}
+
+render();
+</script>
+</body>
+</html>
